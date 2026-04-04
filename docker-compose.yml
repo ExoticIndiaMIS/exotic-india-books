@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+
+  # ── Node.js App ──────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: exotic_india_books_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env                          # Load your existing .env file
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app                        # Live reload in development
+      - /app/node_modules             # Preserve container node_modules
+      - sqlite_data:/app/data         # Persist SQLite database file
+
+# ── Volumes ───────────────────────────────────────────────
+volumes:
+  sqlite_data:                        # Keeps your DB safe on restart
