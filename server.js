@@ -1,13 +1,14 @@
 import app from "./src/app.js";
-import pool from "./src/config/database.js"
-import  {initDB}  from "./src/config/sqlitedb.js";
-const PORT = process.env.PORT || 3000;
+import  {initDB,sqlite_conn}  from "./src/config/sqlitedb.js";
+import 'dotenv/config';
+const PORT = process.env.PORT ;
+
 
 async function startServer(){
     try{
-        const connection = await pool.getConnection();
+        const db = await sqlite_conn();
         console.log('Successfully connected to the database!');
-        connection.release();
+        // connection.release();
       
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
